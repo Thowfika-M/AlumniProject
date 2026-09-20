@@ -16,7 +16,10 @@ import AlumniProfilePage from './pages/AlumniProfilePage';
 import JobsPage from './pages/JobsPage';
 import StudentApplicationsPage from './pages/StudentApplicationsPage';
 import AlumniManageJobsPage from './pages/AlumniManageJobsPage';
-import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar } from 'lucide-react';
+import SkillGapAnalysisPage from './pages/SkillGapAnalysisPage';
+import RecommendedJobsPage from './pages/RecommendedJobsPage';
+import RecommendedAlumniPage from './pages/RecommendedAlumniPage';
+import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar, Target, Sparkles } from 'lucide-react';
 
 function StudentDashboardHub() {
   return (
@@ -31,48 +34,37 @@ function StudentDashboardHub() {
         </Link>
       </div>
 
-      <div className="grid-cols-4">
+      <div className="grid-cols-3">
         <div className="glass-card">
-          <GraduationCap size={28} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
-          <h3>Student Profile</h3>
+          <Target size={28} style={{ color: 'var(--secondary)', marginBottom: '1rem' }} />
+          <h3>Skill Gap Analysis</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Update academic info, career goals, and technical skill tags.
+            Compare your current skills against industry role templates and calculate your match readiness.
           </p>
-          <Link to="/student/profile" className="btn btn-secondary btn-sm">
-            View & Edit Profile <ArrowRight size={14} />
+          <Link to="/student/skill-gap" className="btn btn-secondary btn-sm">
+            Run Skill Gap Analysis <ArrowRight size={14} />
           </Link>
         </div>
 
         <div className="glass-card">
-          <Briefcase size={28} style={{ color: 'var(--secondary)', marginBottom: '1rem' }} />
-          <h3>Job Board & Apply</h3>
+          <Sparkles size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
+          <h3>Recommended Jobs</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Browse alumni jobs, upload your resume, and submit applications.
+            View job postings sorted by transparent skill match accuracy.
           </p>
-          <Link to="/jobs" className="btn btn-secondary btn-sm">
-            Browse Jobs <ArrowRight size={14} />
+          <Link to="/student/recommended-jobs" className="btn btn-secondary btn-sm">
+            View Job Matches <ArrowRight size={14} />
           </Link>
         </div>
 
         <div className="glass-card">
-          <MessageSquare size={28} style={{ color: 'var(--accent-emerald)', marginBottom: '1rem' }} />
-          <h3>Alumni Mentorship</h3>
+          <Users size={28} style={{ color: 'var(--accent-emerald)', marginBottom: '1rem' }} />
+          <h3>Recommended Alumni Mentors</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Request 1-on-1 mentorship with verified alumni mentors.
+            Connect with alumni mentors matched to your tech stack and department.
           </p>
-          <Link to="/mentorship" className="btn btn-secondary btn-sm">
-            Mentorship Hub <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        <div className="glass-card">
-          <Calendar size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
-          <h3>Campus Events</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Register for workshops, coding sessions, and summits.
-          </p>
-          <Link to="/events" className="btn btn-secondary btn-sm">
-            View Events <ArrowRight size={14} />
+          <Link to="/student/recommended-alumni" className="btn btn-secondary btn-sm">
+            View Mentor Matches <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -179,6 +171,30 @@ export default function App() {
                 element={
                   <ProtectedRoute allowedRoles={['STUDENT']}>
                     <StudentApplicationsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/skill-gap"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <SkillGapAnalysisPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/recommended-jobs"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <RecommendedJobsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/recommended-alumni"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <RecommendedAlumniPage />
                   </ProtectedRoute>
                 }
               />
