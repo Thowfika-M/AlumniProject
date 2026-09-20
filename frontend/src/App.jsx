@@ -12,7 +12,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentProfilePage from './pages/StudentProfilePage';
 import AlumniProfilePage from './pages/AlumniProfilePage';
-import { User, Briefcase, GraduationCap, ArrowRight } from 'lucide-react';
+import JobsPage from './pages/JobsPage';
+import StudentApplicationsPage from './pages/StudentApplicationsPage';
+import AlumniManageJobsPage from './pages/AlumniManageJobsPage';
+import { User, Briefcase, GraduationCap, ArrowRight, FileText, PlusCircle } from 'lucide-react';
 
 function StudentDashboardHub() {
   return (
@@ -32,7 +35,7 @@ function StudentDashboardHub() {
           <GraduationCap size={28} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
           <h3>Student Profile</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Update your academic details, career goals, and technical skill tags.
+            Update academic info, career goals, and technical skill tags.
           </p>
           <Link to="/student/profile" className="btn btn-secondary btn-sm">
             View & Edit Profile <ArrowRight size={14} />
@@ -41,12 +44,23 @@ function StudentDashboardHub() {
 
         <div className="glass-card">
           <Briefcase size={28} style={{ color: 'var(--secondary)', marginBottom: '1rem' }} />
-          <h3>Alumni Directory</h3>
+          <h3>Job Board & Apply</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Browse verified alumni mentors and request career guidance.
+            Browse alumni jobs, upload your resume, and submit applications.
           </p>
-          <Link to="/alumni" className="btn btn-secondary btn-sm">
-            Find Mentors <ArrowRight size={14} />
+          <Link to="/jobs" className="btn btn-secondary btn-sm">
+            Browse Jobs <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="glass-card">
+          <FileText size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
+          <h3>My Applications</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
+            Track real-time status of submitted job applications.
+          </p>
+          <Link to="/student/applications" className="btn btn-secondary btn-sm">
+            Track Applications <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -72,10 +86,21 @@ function AlumniDashboardHub() {
           <User size={28} style={{ color: 'var(--accent-emerald)', marginBottom: '1rem' }} />
           <h3>Alumni Profile</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Update your company, job role, experience years, and mentorship areas.
+            Update your company, job role, experience, and mentorship areas.
           </p>
           <Link to="/alumni/profile" className="btn btn-secondary btn-sm">
-            Edit Alumni Profile <ArrowRight size={14} />
+            Edit Profile <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="glass-card">
+          <Briefcase size={28} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
+          <h3>Manage Jobs & Applicants</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
+            Post job opportunities and review student resume submissions.
+          </p>
+          <Link to="/alumni/jobs" className="btn btn-secondary btn-sm">
+            Manage Jobs <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -102,6 +127,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/jobs" element={<JobsPage />} />
               <Route path="/alumni" element={<AlumniShowcase />} />
               <Route path="/events" element={<EventsPreview />} />
               <Route path="/login" element={<Login />} />
@@ -124,6 +150,14 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/student/applications"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <StudentApplicationsPage />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Alumni Protected Routes */}
               <Route
@@ -139,6 +173,14 @@ export default function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ALUMNI']}>
                     <AlumniProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/alumni/jobs"
+                element={
+                  <ProtectedRoute allowedRoles={['ALUMNI']}>
+                    <AlumniManageJobsPage />
                   </ProtectedRoute>
                 }
               />

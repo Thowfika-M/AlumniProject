@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User, Briefcase } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
@@ -81,6 +81,19 @@ export default function Navbar() {
             fontSize: '0.95rem',
             transition: 'color 0.2s',
           }}>About</Link>
+
+          <Link to="/jobs" style={{
+            color: isActive('/jobs') ? '#fff' : 'var(--text-muted)',
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: '0.95rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            transition: 'color 0.2s',
+          }}>
+            <Briefcase size={16} /> Job Board
+          </Link>
 
           <Link to="/alumni" style={{
             color: isActive('/alumni') ? '#fff' : 'var(--text-muted)',
