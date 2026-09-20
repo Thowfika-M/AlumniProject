@@ -1,11 +1,33 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { GraduationCap, Users, Briefcase, Calendar, Sparkles, LogIn, UserPlus } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const isActive = (path) => location.pathname === path;
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const getDashboardPath = () => {
+    if (!user) return '/';
+    if (user.role === 'STUDENT') return '/student/dashboard';
+    if (user.role === 'ALUMNI') return '/alumni/dashboard';
+    if (user.role === 'ADMIN') return '/admin/dashboard';
+    return '/';
+  };
+
+  const getBadgeClass = (role) => {
+    if (role === 'STUDENT') return 'badge badge-student';
+    if (role === 'ALUMNI') return 'badge badge-alumni';
+    return 'badge badge-admin';
+  };
 
   return (
     <header style={{
@@ -88,12 +110,30 @@ export default function Navbar() {
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          <Link to="/login" className="btn btn-secondary btn-sm">
-            <LogIn size={15} /> Login
-          </Link>
-          <Link to="/register" className="btn btn-primary btn-sm">
-            <UserPlus size={15} /> Get Started
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to={getDashboardPath()} className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <LayoutDashboard size={15} /> Dashboard
+              </Link>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255,255,255,0.05)', padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-glass)' }}>
+                <User size={15} style={{ color: 'var(--primary)' }} />
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>{user.name}</span>
+                <span className={getBadgeClass(user.role)} style={{ fontSize: '0.7rem', padding: '1px 6px' }}>{user.role}</span>
+              </div>
+              <button onClick={handleLogout} className="btn btn-outline btn-sm" style={{ color: 'var(--accent-rose)', borderColor: 'rgba(244, 63, 94, 0.3)' }}>
+                <LogOut size={15} />
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-secondary btn-sm">
+                <LogIn size={15} /> Login
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm">
+                <UserPlus size={15} /> Get Started
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

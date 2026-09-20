@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, Shield } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('STUDENT');
-  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Phase 1 Preview Login submitted for ${email} (${role}). Full JWT Auth will be activated in Phase 2.`);
+    setError('');
+    setLoading(true);
+
+    try {
+      const loggedUser = await login(email, password);
+      if (loggedUser.role === 'STUDENT') navigate('/student/dashboard');
+      else if (loggedUser.role === 'ALUMNI') navigate('/alumni/dashboard');
+      else if (loggedUser.role === 'ADMIN') navigate('/admin/dashboard');
+      else navigate(from);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to authenticate with backend');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,34 +55,24 @@ export default function Login() {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sign in to your AlumniConnect account</p>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Account Role</label>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              {['STUDENT', 'ALUMNI', 'ADMIN'].map((r) => (
-                <button
-                  type="button"
-                  key={r}
-                  onClick={() => setRole(r)}
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--border-glass)',
-                    background: role === r ? 'var(--primary)' : 'rgba(15, 23, 42, 0.5)',
-                    color: '#fff',
-                    fontWeight: 600,
-                    fontSize: '0.8rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
+        {error && (
+          <div style={{
+            background: 'rgba(244, 63, 94, 0.15)',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            color: '#fda4af',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: '0.875rem',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <AlertCircle size={18} /> {error}
           </div>
+        )}
 
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Email Address</label>
             <div style={{ position: 'relative' }}>
@@ -95,8 +105,8 @@ export default function Login() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.85rem' }}>
-            Sign In to Account
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.85rem' }} disabled={loading}>
+            {loading ? 'Authenticating...' : 'Sign In to Account'}
           </button>
         </form>
 

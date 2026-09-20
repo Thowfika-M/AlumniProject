@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { UserPlus, User, Mail, Lock, Phone } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserPlus, User, Mail, Lock, Phone, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -10,10 +11,27 @@ export default function Register() {
     password: '',
     role: 'STUDENT',
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Phase 1 Registration submitted for ${formData.name} as ${formData.role}. Security & persistence will be enabled in Phase 2 & 3.`);
+    setError('');
+    setLoading(true);
+
+    try {
+      const newUser = await register(formData);
+      if (newUser.role === 'STUDENT') navigate('/student/dashboard');
+      else if (newUser.role === 'ALUMNI') navigate('/alumni/dashboard');
+      else navigate('/');
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,6 +55,23 @@ export default function Register() {
           <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>Create an Account</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Join as a Student or Alumni Mentor</p>
         </div>
+
+        {error && (
+          <div style={{
+            background: 'rgba(244, 63, 94, 0.15)',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            color: '#fda4af',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: '0.875rem',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <AlertCircle size={18} /> {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -121,7 +156,7 @@ export default function Register() {
                 type="password"
                 className="form-input"
                 style={{ paddingLeft: '2.5rem' }}
-                placeholder="Minimum 8 characters"
+                placeholder="Minimum 6 characters"
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -129,8 +164,8 @@ export default function Register() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.85rem' }}>
-            Create AlumniConnect Account
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.85rem' }} disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create AlumniConnect Account'}
           </button>
         </form>
 
