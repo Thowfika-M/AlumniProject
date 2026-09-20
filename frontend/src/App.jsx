@@ -20,6 +20,7 @@ import SkillGapAnalysisPage from './pages/SkillGapAnalysisPage';
 import RecommendedJobsPage from './pages/RecommendedJobsPage';
 import RecommendedAlumniPage from './pages/RecommendedAlumniPage';
 import AICareerAssistantPage from './pages/AICareerAssistantPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar, Target, Sparkles, Bot, Users } from 'lucide-react';
 
 function StudentDashboardHub() {
@@ -237,13 +238,12 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-
               {/* Admin Protected Routes */}
               <Route
                 path="/admin/dashboard"
                 element={
                   <ProtectedRoute allowedRoles={['ADMIN']}>
-                    <AdminDashboardHub />
+                    <AdminDashboardPage />
                   </ProtectedRoute>
                 }
               />
