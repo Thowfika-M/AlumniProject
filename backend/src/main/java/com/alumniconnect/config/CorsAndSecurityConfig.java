@@ -48,9 +48,29 @@ public class CorsAndSecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/health", "/api/auth/**", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                .requestMatchers(
+                    "/",
+                    "/index.html",
+                    "/assets/**",
+                    "/*.js",
+                    "/*.css",
+                    "/*.ico",
+                    "/about",
+                    "/jobs",
+                    "/alumni",
+                    "/events",
+                    "/mentorship",
+                    "/login",
+                    "/register",
+                    "/ai-assistant",
+                    "/api/health",
+                    "/api/auth/**",
+                    "/h2-console/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**"
+                ).permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
             .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
