@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User, Briefcase, MessageSquare } from 'lucide-react';
+import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User, Briefcase, MessageSquare, Bot, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationBell from './NotificationBell';
 
@@ -75,6 +75,20 @@ export default function Navbar() {
             transition: 'color 0.2s',
           }}>Home</Link>
           
+          <Link to="/ai-assistant" style={{
+            color: isActive('/ai-assistant') ? 'var(--primary-light)' : 'var(--text-muted)',
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: '0.95rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            transition: 'color 0.2s',
+          }}>
+            <Bot size={17} style={{ color: 'var(--primary-light)' }} /> AI Assistant
+            <span style={{ background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%)', color: '#fff', fontSize: '0.65rem', padding: '1px 5px', borderRadius: '4px', fontWeight: 700 }}>NEW</span>
+          </Link>
+
           <Link to="/about" style={{
             color: isActive('/about') ? '#fff' : 'var(--text-muted)',
             textDecoration: 'none',

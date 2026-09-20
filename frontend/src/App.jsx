@@ -19,7 +19,8 @@ import AlumniManageJobsPage from './pages/AlumniManageJobsPage';
 import SkillGapAnalysisPage from './pages/SkillGapAnalysisPage';
 import RecommendedJobsPage from './pages/RecommendedJobsPage';
 import RecommendedAlumniPage from './pages/RecommendedAlumniPage';
-import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar, Target, Sparkles } from 'lucide-react';
+import AICareerAssistantPage from './pages/AICareerAssistantPage';
+import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar, Target, Sparkles, Bot, Users } from 'lucide-react';
 
 function StudentDashboardHub() {
   return (
@@ -34,15 +35,26 @@ function StudentDashboardHub() {
         </Link>
       </div>
 
-      <div className="grid-cols-3">
+      <div className="grid-cols-4">
+        <div className="glass-card">
+          <Bot size={28} style={{ color: 'var(--primary-light)', marginBottom: '1rem' }} />
+          <h3>AI Career Assistant</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
+            Chat with AI for career roadmaps, resume ATS review, and interview prep.
+          </p>
+          <Link to="/ai-assistant" className="btn btn-primary btn-sm">
+            Launch AI Chat <ArrowRight size={14} />
+          </Link>
+        </div>
+
         <div className="glass-card">
           <Target size={28} style={{ color: 'var(--secondary)', marginBottom: '1rem' }} />
           <h3>Skill Gap Analysis</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Compare your current skills against industry role templates and calculate your match readiness.
+            Compare your current skills against industry role templates.
           </p>
           <Link to="/student/skill-gap" className="btn btn-secondary btn-sm">
-            Run Skill Gap Analysis <ArrowRight size={14} />
+            Run Skill Gap <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -50,7 +62,7 @@ function StudentDashboardHub() {
           <Sparkles size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
           <h3>Recommended Jobs</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            View job postings sorted by transparent skill match accuracy.
+            View job postings sorted by skill match accuracy.
           </p>
           <Link to="/student/recommended-jobs" className="btn btn-secondary btn-sm">
             View Job Matches <ArrowRight size={14} />
@@ -59,12 +71,12 @@ function StudentDashboardHub() {
 
         <div className="glass-card">
           <Users size={28} style={{ color: 'var(--accent-emerald)', marginBottom: '1rem' }} />
-          <h3>Recommended Alumni Mentors</h3>
+          <h3>Mentor Matches</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Connect with alumni mentors matched to your tech stack and department.
+            Connect with alumni mentors matched to your tech stack.
           </p>
           <Link to="/student/recommended-alumni" className="btn btn-secondary btn-sm">
-            View Mentor Matches <ArrowRight size={14} />
+            View Mentors <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -148,6 +160,7 @@ export default function App() {
               <Route path="/mentorship" element={<MentorshipPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/ai-assistant" element={<AICareerAssistantPage />} />
 
               {/* Student Protected Routes */}
               <Route
