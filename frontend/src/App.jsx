@@ -7,7 +7,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import AlumniShowcase from './pages/AlumniShowcase';
-import EventsPreview from './pages/EventsPreview';
+import EventsPage from './pages/EventsPage';
+import MentorshipPage from './pages/MentorshipPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentProfilePage from './pages/StudentProfilePage';
@@ -15,7 +16,7 @@ import AlumniProfilePage from './pages/AlumniProfilePage';
 import JobsPage from './pages/JobsPage';
 import StudentApplicationsPage from './pages/StudentApplicationsPage';
 import AlumniManageJobsPage from './pages/AlumniManageJobsPage';
-import { User, Briefcase, GraduationCap, ArrowRight, FileText, PlusCircle } from 'lucide-react';
+import { User, Briefcase, GraduationCap, ArrowRight, FileText, MessageSquare, Calendar } from 'lucide-react';
 
 function StudentDashboardHub() {
   return (
@@ -30,7 +31,7 @@ function StudentDashboardHub() {
         </Link>
       </div>
 
-      <div className="grid-cols-3">
+      <div className="grid-cols-4">
         <div className="glass-card">
           <GraduationCap size={28} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
           <h3>Student Profile</h3>
@@ -54,13 +55,24 @@ function StudentDashboardHub() {
         </div>
 
         <div className="glass-card">
-          <FileText size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
-          <h3>My Applications</h3>
+          <MessageSquare size={28} style={{ color: 'var(--accent-emerald)', marginBottom: '1rem' }} />
+          <h3>Alumni Mentorship</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
-            Track real-time status of submitted job applications.
+            Request 1-on-1 mentorship with verified alumni mentors.
           </p>
-          <Link to="/student/applications" className="btn btn-secondary btn-sm">
-            Track Applications <ArrowRight size={14} />
+          <Link to="/mentorship" className="btn btn-secondary btn-sm">
+            Mentorship Hub <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="glass-card">
+          <Calendar size={28} style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }} />
+          <h3>Campus Events</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
+            Register for workshops, coding sessions, and summits.
+          </p>
+          <Link to="/events" className="btn btn-secondary btn-sm">
+            View Events <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -103,6 +115,17 @@ function AlumniDashboardHub() {
             Manage Jobs <ArrowRight size={14} />
           </Link>
         </div>
+
+        <div className="glass-card">
+          <MessageSquare size={28} style={{ color: 'var(--secondary)', marginBottom: '1rem' }} />
+          <h3>Mentorship Requests</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0.5rem 0 1.25rem' }}>
+            Review incoming student 1-on-1 mentorship requests.
+          </p>
+          <Link to="/mentorship" className="btn btn-secondary btn-sm">
+            Review Requests <ArrowRight size={14} />
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -129,7 +152,8 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/jobs" element={<JobsPage />} />
               <Route path="/alumni" element={<AlumniShowcase />} />
-              <Route path="/events" element={<EventsPreview />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/mentorship" element={<MentorshipPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 

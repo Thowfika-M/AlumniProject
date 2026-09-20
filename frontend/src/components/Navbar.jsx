@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User, Briefcase } from 'lucide-react';
+import { GraduationCap, Users, Calendar, LogIn, UserPlus, LogOut, LayoutDashboard, User, Briefcase, MessageSquare } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationBell from './NotificationBell';
 
 export default function Navbar() {
   const location = useLocation();
@@ -108,6 +109,19 @@ export default function Navbar() {
             <Users size={16} /> Alumni Directory
           </Link>
 
+          <Link to="/mentorship" style={{
+            color: isActive('/mentorship') ? '#fff' : 'var(--text-muted)',
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: '0.95rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            transition: 'color 0.2s',
+          }}>
+            <MessageSquare size={16} /> Mentorship
+          </Link>
+
           <Link to="/events" style={{
             color: isActive('/events') ? '#fff' : 'var(--text-muted)',
             textDecoration: 'none',
@@ -125,6 +139,7 @@ export default function Navbar() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           {isAuthenticated ? (
             <>
+              <NotificationBell />
               <Link to={getDashboardPath()} className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <LayoutDashboard size={15} /> Dashboard
               </Link>
