@@ -18,6 +18,7 @@ frontend/.env
 
 # Java / Maven / Backend
 backend/target/
+backend/src/main/resources/static/
 backend/.mvn/
 backend/*.log
 backend/.env
